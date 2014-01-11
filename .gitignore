@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+# Visual Studio crap
+*.tlog
+*.lastbuildstate
+*.filters
+*.idb
+*.pdb
+*.ilk
