@@ -31,4 +31,5 @@ int main(){
 		cout << "The number you inputted (" << inpt << ") is not a fibonacci number!" << endl;
 	}
 
+	return 0;
 }
