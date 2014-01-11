@@ -24,7 +24,7 @@ int main(){
 
 	//Initialization of lists
 	for (size_t i = 0; i < 3; i++){
-		resList[0] = 0;
+		resList[i] = 0;
 	}
 	for (size_t i = 0; i < 10; i++){
 		randNr = (rand() % 200) - 100;
