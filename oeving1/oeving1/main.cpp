@@ -1,13 +1,15 @@
 #include <iostream>
 #include <iomanip> //Needed for convertNOKToEUR
 #include <string> //Needed for printMultiplicationTable
+#include <cstdint> //Needed for printTime, 64-bit signed ints
+#include <cmath> //Needed for internalSum
 
 using namespace std;
 
 void getAndPrintInteger(){ //This function has the return value "void" for one reason in this context; nothing is returned, yet procedures are run.
 	int inpt = 0;
 
-	cout << "Type in a number you want printed to the command console: " << endl;
+	cout << "Type in a integer you want printed to the command console: " << endl;
 	cin >> inpt;
 
 	cout << "The number you inputted was: " << inpt << "." << endl;
@@ -20,7 +22,7 @@ void getAndPrintInteger(){ //This function has the return value "void" for one r
 int getAndReturnInteger(){ //This function has the return value "int", since it's of interest to return a value to whatever called this function.
 	int inpt = 0;
 
-	cout << "Type in a number: " << endl;
+	cout << "Type in an integer: " << endl;
 	cin >> inpt;
 
 	return inpt;
@@ -42,7 +44,7 @@ void getAndPrintSum(){
 void getAndPrintMoreSums(){
 	int inpt = 0, sum = 0;
 
-	cout << "Input the amount of numbers you want to input: " << endl;
+	cout << "Input the amount of integers you want to input: " << endl;
 	cin >> inpt;
 
 	for (int i = 0; i < inpt; i++){
@@ -125,7 +127,7 @@ void printMultiplicationTable(){
 }
 
 void printTime(){
-	long seconds = 0, years = 0, weeks = 0, days = 0, hours = 0, minutes = 0;
+	int64_t seconds = 0, years = 0, weeks = 0, days = 0, hours = 0, minutes = 0;
 	bool end = false;
 	string outpt = "";
 
@@ -133,7 +135,9 @@ void printTime(){
 	cin >> seconds;
 
 	years = (seconds / (60 * 60 * 24 * 7 * 52)); //I'm assuming floor division here between two integers.
-	if (years > 0){ 
+	if (years > 0){
+		seconds -= (years * 60 * 60 * 24 * 7 * 52);
+
 		if ((seconds % (60 * 60 * 24 * 7 * 52)) == 0){
 			end = true;
 		}
@@ -155,9 +159,7 @@ void printTime(){
 
 	weeks = (seconds / (60 * 60 * 24 * 7)); 
 	if (weeks > 0){
-		if (years > 0){
-			weeks -= (years * 52);
-		}
+		seconds -= (weeks * 60 * 60 * 24 * 7);
 
 		if ((seconds % (60 * 60 * 24 * 7)) == 0){
 			end = true;
@@ -181,12 +183,7 @@ void printTime(){
 	
 	days = seconds / (60 * 60 * 24);
 	if (days > 0){
-		if (years > 0){
-			days -= (years * 52 * 7);
-		} 
-		if (weeks > 0){
-			days -= (weeks * 7);
-		}
+		seconds -= (days * 60 * 60 * 24);
 
 		if ((seconds % (60 * 60 * 24)) == 0){
 			end = true;
@@ -211,15 +208,7 @@ void printTime(){
 
 	hours = seconds / (60 * 60);
 	if (hours > 0){
-		if (years > 0){
-			hours -= (years * 52 * 7 * 24);
-		}
-		if (weeks > 0){
-			hours -= (weeks * 7 * 24);
-		}
-		if (days > 0){
-			hours -= (days * 24);
-		}
+		seconds -= (hours * 60 * 60);
 
 		if ((seconds % (60 * 60)) == 0){
 			end = true;
@@ -244,18 +233,7 @@ void printTime(){
 
 	minutes = seconds / 60;
 	if (minutes > 0){
-		if (years > 0){
-			minutes -= (years * 52 * 7 * 24 * 60);
-		}
-		if (weeks > 0){
-			minutes -= (weeks * 7 * 24 * 60);
-		}
-		if (days > 0){
-			minutes -= (days * 24 * 60);
-		}
-		if (hours > 0){
-			minutes -= (hours * 60);
-		}
+		seconds -= (minutes * 60);
 
 		if ((seconds % 60) == 0){
 			end = true;
@@ -279,22 +257,6 @@ void printTime(){
 	}
 
 	if (seconds > 0){
-		if (years > 0){
-			seconds -= (years * 52 * 7 * 24 * 60 * 60);
-		}
-		if (weeks > 0){
-			seconds -= (weeks * 7 * 24 * 60 * 60);
-		}
-		if (days > 0){
-			seconds -= (days * 24 * 60 * 60);
-		}
-		if (hours > 0){
-			seconds -= (hours * 60 * 60);
-		}
-		if (minutes > 0){
-			seconds -= (minutes * 60);
-		}
-
 		outpt += "and " + to_string(seconds) + " second";
 
 		if (seconds > 1){
@@ -305,6 +267,130 @@ void printTime(){
 	outpt += ".\n";
 	cout << outpt << endl;
 	return;
+}
+
+void printRestaurantBill(){
+	double inpt = 0.0;
+
+	cout << "Type in a double value representing the cost of the meal below: " << endl;
+	inpt = getAndReturnDouble();
+
+	while (inpt <= 0){
+		cout << "C'mon... type in a proper positive value. Use '.' to separate the decimal values if you want to use them..." << endl;
+		inpt = getAndReturnDouble();
+	}
+
+	cout << setprecision(2) << fixed << showpoint;
+
+	cout << "The tax of this meal is: " << (inpt*0.0875) << "." << endl;
+	cout << "The tip (including the tax) for this meal is: " << (inpt*0.18) << "." << endl;
+	cout << "All of it together sums up to:" << (inpt*1.18) << "." << endl;
+
+	return;
+}
+
+void printEvenOrOdd(){
+	int inpt = 0;
+
+	inpt = getAndReturnInteger();
+
+	if (inpt % 2 == 0){
+		cout << inpt << " is an even number." << endl;
+	} else{
+		cout << inpt << " is an odd (not even) number." << endl;
+	}
+
+	return;
+}
+
+void returnMaxDouble(){
+	double inpt1 = 0.0, inpt2 = 0.0;
+
+	inpt1 = getAndReturnDouble();
+	inpt2 = getAndReturnDouble();
+
+	if (inpt1 > inpt2){
+		cout << inpt1 << " is the biggest number of the two previous inputted integers." << endl;
+	} else if (inpt1 == inpt2){
+		cout <<"Both the integers inputted have the same value." << endl;
+	} else{
+		cout << inpt2 << " is the biggest number of the two previous inputted integers." << endl;
+	}
+
+	return;
+}
+
+/*
+If the exercise text had changed to what is suggested, the functions would've needed to receive inputs, AKA the values the function used were defined outside of the function itself.
+Instead of the function instantiating those values themselves inside of the functions with the help of user-input.
+*/
+
+double internalSum(double a, double b, double c){
+	return (b*b) - 4 * a*c;
+}
+
+double positiveSqrt(double x){
+	if (x >= 0){
+		return sqrt(x);
+	} else{
+		return -1;
+	}
+}
+
+double polyRoot(double a, double b, double c){
+	return positiveSqrt(internalSum(a, b, c));
+}
+
+void abcFormula(double a, double b, double c){
+	double root = polyRoot(a, b, c);
+	if (root == 0){
+		cout << "One real result:\n" << ((-b) / (2 * a)) << "." << endl;
+	} else if (root < 0){
+		cout << "No real results for these values." << endl;
+	} else{
+		cout << "Two results:" << endl;
+		cout << "Real result one: " <<  ((-b - root) / (2 * a)) << endl;
+		cout << "Real result two: " << ((-b + root) / (2 * a)) << endl;
+	}
+	return;
+}
+
+void solveAndPrintRoots(){
+	double a = 0.0, b = 0.0, c = 0.0;
+
+	cout << "This function requires three doubles as input from the user, please input the double-values representing A, B, and C in your 2nd degree equation of the form:" <<
+		"Ax^2 + Bx + C = 0\n" << endl;
+
+	cout << "First A:" << endl;
+	a = getAndReturnDouble();
+	cout << "Then B:" << endl;
+	b = getAndReturnDouble();
+	cout << "And at last, C:" << endl;
+	c = getAndReturnDouble();
+
+	abcFormula(a, b, c);
+}
+
+void calculateLoanPayments(){
+	double loanAmount = 0.0, interest = 0.0, curPayment = 0.0, totalLoan = 0.0;
+
+	cout << "Skriv inn lånebeløp (som double):" << endl;
+	loanAmount = getAndReturnDouble();
+	totalLoan = loanAmount;
+
+	cout << "Skriv inn rente (som double):" << endl;
+	interest = getAndReturnDouble();
+
+	cout << setprecision(0) << fixed;
+
+	cout << "\n\nÅr\t\tInnbetaling\t\tGjenstående Lån" << endl;
+	cout << "1\t\t" << ((totalLoan / 10) + ((interest / 100)*loanAmount)) << "\t\t" << loanAmount << endl;
+
+	for (size_t i = 2; i < 11; i++){
+		loanAmount -= totalLoan / 10;
+		curPayment = ((totalLoan / 10) + ((interest / 100)*loanAmount));
+		cout << i << "\t\t" << curPayment << "\t\t" << loanAmount << endl;
+	}
 }
 
 int main(){
@@ -320,8 +406,12 @@ int main(){
 				"\n5) getAndReturnDouble()" <<
 				"\n6) convertNOKToEUR() //This function converts NOKs to EURs. " <<
 				"\n7) printMultiplicationTable() //This function asks for height and width, and prints corresponding mult. table. " << 
-				"\n8) printTime() //This function takes in seconds, and prints out years, weeks, days, minutes, and seconds those seconds entail. " <<
-				"\n9) " <<
+				"\n8) printTime() //This function takes in seconds, and prints out years, weeks, days, minutes, and seconds those seconds represent. " <<
+				"\n9) printRestaurantBills() //This function needs a double value representing the cost of the meal, and returns info about tax and tips and total sum. " <<
+				"\n10) printEvenOrOdd() //This function requires a double as input, and reports whether it is an even or odd number. " <<
+				"\n11) returnMaxDouble() //This function requires two doubles as input, and returns the biggest number. " <<
+				"\n12) solveAndPrintRoots() //This function requires three doubles as input, to solve a 2nd degree equation the doubles represent, and then returns the real values to the screen." <<
+				"\n13) calculateLoanPayments() //Give loan amount and interest to this function, and it will tell you how much you have to pay per year if the loan is to be paid in 10 years." <<
 				"\n14) Finish. (AKA close program)." << 
 				"\n\nMake a choice, input an integer in the range of 1-14:" << endl;
 		cin >> function;
@@ -363,7 +453,7 @@ int main(){
 					break;
 				case 9:
 					cout << "\nYou chose option 9: " << endl;
-					printMultiplicationTable();
+					printRestaurantBill();
 					break;
 				case 10:
 					cout << "\nYou chose option 10: " << endl;
@@ -375,11 +465,11 @@ int main(){
 					break;
 				case 12:
 					cout << "\nYou chose option 12: " << endl;
-					printMultiplicationTable();
+					solveAndPrintRoots();
 					break;
 				case 13:
-					cout << "\nYou chose option 12: " << endl;
-					printMultiplicationTable();
+					cout << "\nYou chose option 13: " << endl;
+					calculateLoanPayments();
 					break;
 				case 14:
 					cout << "\nYou chose to finish up and close this program! Bye bye suckah!\n" << endl;
