@@ -37,7 +37,7 @@ void getAndPrintSum(){
 	cout << "The sum of the two numbers you inputted is: " << inpt1 + inpt2 << "." << endl;
 }
 
-//The function I chose to use within "getAndPrintSum" was "getAndReturnInteger", since the other choice would ask for numbers from the users (which PrintSum needed), 
+//The function I chose to use within "getAndPrintSum" was "getAndReturnInteger", since the other choice would ask for numbers from the users (which PrintSum needed),
 //but it had no way of giving the values to PrintSum. "getAndReturnInteger" however does enable PrintSum to receive the values the user inputs.
 //And therefore it is of use.... Have I written enough sentence now...?
 
@@ -55,7 +55,7 @@ void getAndPrintMoreSums(){
 }
 
 //The best type of loop if the user has given the amount of numbers beforehand, is a for-loop. This is mostly due to simplicity, a while loop with a counter would've been just as easy.
-//If the user instead was to input any random amount of numbers, as long as said numbers are not "0". If the number "0" is given as input, then that's supposed to be the users way of saying 
+//If the user instead was to input any random amount of numbers, as long as said numbers are not "0". If the number "0" is given as input, then that's supposed to be the users way of saying
 //"No more numbers to be inputted". Below is an example of how the while-loop could look like:
 
 /*
@@ -157,7 +157,7 @@ void printTime(){
 		}
 	}
 
-	weeks = (seconds / (60 * 60 * 24 * 7)); 
+	weeks = (seconds / (60 * 60 * 24 * 7));
 	if (weeks > 0){
 		seconds -= (weeks * 60 * 60 * 24 * 7);
 
@@ -180,7 +180,7 @@ void printTime(){
 			outpt += ", ";
 		}
 	}
-	
+
 	days = seconds / (60 * 60 * 24);
 	if (days > 0){
 		seconds -= (days * 60 * 60 * 24);
@@ -194,7 +194,7 @@ void printTime(){
 
 		if (days != 1){
 			outpt += "s";
-		} 
+		}
 
 		if (end){
 			outpt += ".\n";
@@ -245,7 +245,7 @@ void printTime(){
 		if (minutes != 1){
 			outpt += "s";
 		}
-		
+
 		if (end){
 			outpt += ".\n";
 			cout << outpt << endl;
@@ -256,12 +256,10 @@ void printTime(){
 		}
 	}
 
-	if (seconds > 0){
-		outpt += "and " + to_string(seconds) + " second";
+	outpt += "and " + to_string(seconds) + " second";
 
-		if (seconds > 1){
-			outpt += "s";
-		}
+	if (seconds != 1){
+		outpt += "s";
 	}
 
 	outpt += ".\n";
@@ -405,14 +403,14 @@ int main(){
 				"\n4) getAndPrintMoreSums()" <<
 				"\n5) getAndReturnDouble()" <<
 				"\n6) convertNOKToEUR() //This function converts NOKs to EURs. " <<
-				"\n7) printMultiplicationTable() //This function asks for height and width, and prints corresponding mult. table. " << 
+				"\n7) printMultiplicationTable() //This function asks for height and width, and prints corresponding mult. table. " <<
 				"\n8) printTime() //This function takes in seconds, and prints out years, weeks, days, minutes, and seconds those seconds represent. " <<
 				"\n9) printRestaurantBills() //This function needs a double value representing the cost of the meal, and returns info about tax and tips and total sum. " <<
 				"\n10) printEvenOrOdd() //This function requires a double as input, and reports whether it is an even or odd number. " <<
 				"\n11) returnMaxDouble() //This function requires two doubles as input, and returns the biggest number. " <<
 				"\n12) solveAndPrintRoots() //This function requires three doubles as input, to solve a 2nd degree equation the doubles represent, and then returns the real values to the screen." <<
 				"\n13) calculateLoanPayments() //Give loan amount and interest to this function, and it will tell you how much you have to pay per year if the loan is to be paid in 10 years." <<
-				"\n14) Finish. (AKA close program)." << 
+				"\n14) Finish. (AKA close program)." <<
 				"\n\nMake a choice, input an integer in the range of 1-14:" << endl;
 		cin >> function;
 
@@ -480,7 +478,7 @@ int main(){
 					cout << "\nYour input was invalid. Try again...\n" << endl;
 			}
 	}
-	
+
 	system("PAUSE");
 	return 0;
 }
