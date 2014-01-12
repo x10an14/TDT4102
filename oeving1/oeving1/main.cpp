@@ -124,21 +124,206 @@ void printMultiplicationTable(){
 	cout << table << endl;
 }
 
+void printTime(){
+	long seconds = 0, years = 0, weeks = 0, days = 0, hours = 0, minutes = 0;
+	bool end = false;
+	string outpt = "";
+
+	cout << "Input the amount of seconds you want converted to years, days, hours, minutes, and seconds:\n" << endl;
+	cin >> seconds;
+
+	years = (seconds / (60 * 60 * 24 * 7 * 52)); //I'm assuming floor division here between two integers.
+	if (years > 0){ 
+		if ((seconds % (60 * 60 * 24 * 7 * 52)) == 0){
+			end = true;
+		}
+
+		outpt += to_string(years) + " year";
+
+		if (years != 1){
+			outpt += "s";
+		}
+
+		if (end){
+			outpt += ".\n";
+			cout << outpt << endl;
+			return;
+		} else{
+			outpt += ", ";
+		}
+	}
+
+	weeks = (seconds / (60 * 60 * 24 * 7)); 
+	if (weeks > 0){
+		if (years > 0){
+			weeks -= (years * 52);
+		}
+
+		if ((seconds % (60 * 60 * 24 * 7)) == 0){
+			end = true;
+			outpt += "and ";
+		}
+
+		outpt += to_string(weeks) + " week";
+
+		if (weeks != 1){
+			outpt += "s";
+		}
+
+		if (end){
+			outpt += ".\n";
+			cout << outpt << endl;
+			return;
+		} else{
+			outpt += ", ";
+		}
+	}
+	
+	days = seconds / (60 * 60 * 24);
+	if (days > 0){
+		if (years > 0){
+			days -= (years * 52 * 7);
+		} 
+		if (weeks > 0){
+			days -= (weeks * 7);
+		}
+
+		if ((seconds % (60 * 60 * 24)) == 0){
+			end = true;
+			outpt += "and ";
+		}
+
+		outpt += to_string(days) + " day";
+
+		if (days != 1){
+			outpt += "s";
+		} 
+
+		if (end){
+			outpt += ".\n";
+			cout << outpt << endl;
+			return;
+		}
+		else{
+			outpt += ", ";
+		}
+	}
+
+	hours = seconds / (60 * 60);
+	if (hours > 0){
+		if (years > 0){
+			hours -= (years * 52 * 7 * 24);
+		}
+		if (weeks > 0){
+			hours -= (weeks * 7 * 24);
+		}
+		if (days > 0){
+			hours -= (days * 24);
+		}
+
+		if ((seconds % (60 * 60)) == 0){
+			end = true;
+			outpt += "and ";
+		}
+
+		outpt += to_string(hours) + " hour";
+
+		if (hours != 1){
+			outpt += "s";
+		}
+
+		if (end){
+			outpt += ".\n";
+			cout << outpt << endl;
+			return;
+		}
+		else{
+			outpt += ", ";
+		}
+	}
+
+	minutes = seconds / 60;
+	if (minutes > 0){
+		if (years > 0){
+			minutes -= (years * 52 * 7 * 24 * 60);
+		}
+		if (weeks > 0){
+			minutes -= (weeks * 7 * 24 * 60);
+		}
+		if (days > 0){
+			minutes -= (days * 24 * 60);
+		}
+		if (hours > 0){
+			minutes -= (hours * 60);
+		}
+
+		if ((seconds % 60) == 0){
+			end = true;
+			outpt += "and ";
+		}
+
+		outpt += to_string(minutes) + " minute";
+
+		if (minutes != 1){
+			outpt += "s";
+		}
+		
+		if (end){
+			outpt += ".\n";
+			cout << outpt << endl;
+			return;
+		}
+		else{
+			outpt += ", ";
+		}
+	}
+
+	if (seconds > 0){
+		if (years > 0){
+			seconds -= (years * 52 * 7 * 24 * 60 * 60);
+		}
+		if (weeks > 0){
+			seconds -= (weeks * 7 * 24 * 60 * 60);
+		}
+		if (days > 0){
+			seconds -= (days * 24 * 60 * 60);
+		}
+		if (hours > 0){
+			seconds -= (hours * 60 * 60);
+		}
+		if (minutes > 0){
+			seconds -= (minutes * 60);
+		}
+
+		outpt += "and " + to_string(seconds) + " second";
+
+		if (seconds > 1){
+			outpt += "s";
+		}
+	}
+
+	outpt += ".\n";
+	cout << outpt << endl;
+	return;
+}
+
 int main(){
 	int function = 0, intInpt = 0;
 	double doubleInpt = 0.0;
 
 	while (function != -1){
-		cout << "You can choose to run one of the following functions: " <<
+		cout << "\n\nYou can choose to run one of the following functions: " <<
 				"\n1) getAndPrintInteger()" <<
 				"\n2) getAndReturnInteger()" <<
 				"\n3) getAndPrintSum()" <<
 				"\n4) getAndPrintMoreSums()" <<
 				"\n5) getAndReturnDouble()" <<
 				"\n6) convertNOKToEUR() //This function converts NOKs to EURs. " <<
-				"\n7) printMultiplicationTable() //This function asks for height and width, and prints corresponding mult. table. "
-				"\n8) Finish. (AKA close program)." << 
-				"\n\nMake a choice, input an integer in the range of 1-8:" << endl;
+				"\n7) printMultiplicationTable() //This function asks for height and width, and prints corresponding mult. table. " << 
+				"\n8) printTime() //This function takes in seconds, and prints out years, weeks, days, minutes, and seconds those seconds entail. " <<
+				"\n9) " <<
+				"\n14) Finish. (AKA close program)." << 
+				"\n\nMake a choice, input an integer in the range of 1-14:" << endl;
 		cin >> function;
 
 			switch (function){
@@ -173,6 +358,30 @@ int main(){
 					printMultiplicationTable();
 					break;
 				case 8:
+					cout << "\nYou chose option 8: " << endl;
+					printTime();
+					break;
+				case 9:
+					cout << "\nYou chose option 9: " << endl;
+					printMultiplicationTable();
+					break;
+				case 10:
+					cout << "\nYou chose option 10: " << endl;
+					printMultiplicationTable();
+					break;
+				case 11:
+					cout << "\nYou chose option 11: " << endl;
+					printMultiplicationTable();
+					break;
+				case 12:
+					cout << "\nYou chose option 12: " << endl;
+					printMultiplicationTable();
+					break;
+				case 13:
+					cout << "\nYou chose option 12: " << endl;
+					printMultiplicationTable();
+					break;
+				case 14:
 					cout << "\nYou chose to finish up and close this program! Bye bye suckah!\n" << endl;
 					function = -1;
 					break;
